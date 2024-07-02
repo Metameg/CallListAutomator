@@ -98,3 +98,4 @@ while getPlace(i):
     i += 2
 
 driver.quit()
+
