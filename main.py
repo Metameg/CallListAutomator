@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from time import sleep
 
-QUERY = "dallas hair salons"
+QUERY = "houston hair salons"
 
 def searchplace(query):
     Place = driver.find_element(By.CLASS_NAME, "searchboxinput")
@@ -47,6 +47,12 @@ def getPlaceDetails():
     reviews_total = driver.find_element(By.XPATH, '//*[@id="QA0Szd"]/div/div/div[1]/div[3]/div/div[1]/div/div/div[2]/div[2]/div/div[1]/div[2]/div/div[1]/div[2]/span[2]/span/span').text
     
     try:
+        addr_parent = driver.find_element(By.XPATH, "//*[contains(@aria-label, 'Address:')]")
+        addr = addr_parent.find_element(By.XPATH, ".//div/div[contains(@class, 'rogA2c')]/div").text
+    except Exception as e:
+        addr = "none found"
+
+    try:
         website_parent = driver.find_element(By.XPATH, "//*[contains(@aria-label, 'Website:')]")
         website = website_parent.find_element(By.XPATH, ".//div/div[contains(@class, 'rogA2c')]/div").text
     except Exception as e:
@@ -62,7 +68,7 @@ def getPlaceDetails():
     # back.click()
     sleep(2)
     
-    return [name, reviews_avg, reviews_total, website, phone]
+    return [name, reviews_avg, reviews_total, addr, website, phone]
 # Open Google Maps
 driver = webdriver.Chrome()
 driver.maximize_window()
@@ -80,11 +86,13 @@ i = 3
 while getPlace(i):
     element = getPlace(i)
     try:
+        driver.execute_script("arguments[0].scrollIntoView(true);", element)
         element.click()
         sleep(2)
         details = getPlaceDetails()
     except Exception as e:
         details = ['ERROR','ERROR','ERROR','ERROR', 'ERROR']
+
     sleep(2)
     print(details)
     i += 2
