@@ -1,8 +1,10 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from time import sleep
+from auth import connect_to_sheet
 
 QUERY = "houston hair salons"
+worksheet = connect_to_sheet()
 
 def searchplace(query):
     Place = driver.find_element(By.CLASS_NAME, "searchboxinput")
@@ -82,6 +84,7 @@ scrollToBottom('//*[@id="QA0Szd"]/div/div/div[1]/div[2]/div/div[1]/div/div/div[1
 sleep(2)
 
 i = 3
+row = 2
 # for element in places:
 while getPlace(i):
     element = getPlace(i)
@@ -91,11 +94,14 @@ while getPlace(i):
         sleep(2)
         details = getPlaceDetails()
     except Exception as e:
-        details = ['ERROR','ERROR','ERROR','ERROR', 'ERROR']
+        details = ['ERROR','ERROR', 'ERROR','ERROR','ERROR', 'ERROR']
 
     sleep(2)
     print(details)
     i += 2
 
+    worksheet.update(f"B{row}:G{row}", [details])
+    row += 1
+    
 driver.quit()
 
