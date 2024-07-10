@@ -15,7 +15,7 @@ def connect_to_sheet():
     sheet = client.open('TDD_CallList')
 
     # Get the first sheet of the Spreadsheet
-    worksheet = sheet.get_worksheet(0)
+    worksheet = sheet.get_worksheet(1)
 
     return worksheet
     

@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 from time import sleep
 from auth import connect_to_sheet
 
-QUERY = "houston hair salons"
+QUERY = "dallas hair salons"
 worksheet = connect_to_sheet()
 
 def searchplace(query):
